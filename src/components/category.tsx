@@ -90,14 +90,13 @@ export const CategoryTableRow = ({
                 <h2>Products</h2>
                 <ScrollArea className='h-[400px] rounded-md p-4'>
                   {category.products.map(product => (
-                    <Link key={product.id} href={`/products/${product.id}`}>
-                      <Card className='cursor-pointer'>
+                      <Card key={product.id} className='cursor-pointer'>
                         <div className='grid grid-cols-[100px,1fr] items-center gap-4'>
                           <Image
                             alt='Product image'
                             className='aspect-square rounded-md object-cover'
                             height='100'
-                            src={product.hero_image}
+                            src={product.heroImage}
                             width='100'
                           />
                           <div className='flex flex-col space-y-1'>
@@ -105,12 +104,11 @@ export const CategoryTableRow = ({
                               {product.title}
                             </h3>
                             <p className='text-sm text-muted-foreground'>
-                              {product.max_quantity} in stock
+                              {product.maxQuantity} in stock
                             </p>
                           </div>
                         </div>
                       </Card>
-                    </Link>
                   ))}
                 </ScrollArea>
               </DialogContent>
@@ -122,10 +120,10 @@ export const CategoryTableRow = ({
         <TableCell>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button size='icon' variant='ghost'>
+              <div>
                 <MoreHorizontal className='h-4 w-4' />
                 <span className='sr-only'>Open menu</span>
-              </Button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='w-[160px]'>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
