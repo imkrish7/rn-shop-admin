@@ -1,10 +1,14 @@
+'use server'
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { RenderMounted } from "@/components/render-mouted";
 import { ADMIN } from "@/constants/consttants";
 import { createClient } from "@/supabase/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
+
+// revalidatePath('/', 'layout')
 
 export default async function RootLayout({children}: Readonly<{children: ReactNode}>){
      const supabase = await createClient();
@@ -26,11 +30,11 @@ export default async function RootLayout({children}: Readonly<{children: ReactNo
         if(data.type === ADMIN) return redirect('/');
     }
     return <RenderMounted>
-        <Header />
-        <main className="min-h-[calc(100vh-128px)] py-3">
-        {children}
-        </main>
-        <Footer />
-        </RenderMounted>
+            <Header />
+                <main className="min-h-[calc(100vh-128px)] py-3">
+                {children}
+                </main>
+            <Footer />
+    </RenderMounted>
 
 }

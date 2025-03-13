@@ -3,6 +3,7 @@
 import { createClient } from "@/supabase/server";
 import { revalidatePath } from "next/cache";
 import { sendNotification } from "./notifications";
+import { Mohave } from "next/font/google";
 
 export const getOrderWithProducts = async ()=>{
     const supabase = await createClient()
@@ -48,4 +49,34 @@ export const updateOrderStatus = async(id: number, status: string)=>{
 
     revalidatePath('/admin/orders');
 
+}
+
+export const getMonthlyOrder = async ()=>{
+
+    const supabase = await createClient();
+
+    const { data, error} = await supabase.from('order').select('created_at');
+
+    if(error){
+        throw new Error(error.message)
+    }
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+    const orderByMonths = data.reduce((
+        acc: Record<string, number>, order: {created_at: string})=>{
+            const month = monthNames[new Date(order.created_at).getUTCMonth()];
+
+            if(!acc[month]) acc[month] = 0;
+            
+            acc[month]++;
+            return acc;
+        }, {})
+
+        return Object.keys(orderByMonths).map(month=>{
+            return {
+                name: month,
+                orders: orderByMonths[month]
+            }
+        })
 }
