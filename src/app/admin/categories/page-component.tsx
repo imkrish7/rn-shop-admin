@@ -60,7 +60,6 @@ const CategoryPageComponent: FC<Props> = ({ categories }) => {
 
   const submitCategoryHandler: SubmitHandler<CreateCategorySchema> = async(data)=>{
     const { image, name, intent='create' } = data;
-    console.log(intent, name, image);
     const handleImageUpload = async()=>{
       const uniqueid = uuid();
       const filename = `category/category-${uniqueid}`;
